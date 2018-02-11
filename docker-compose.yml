@@ -1,13 +1,20 @@
-version: '2'
+version: "3"
 services:
-    nodered:
-        build: build
-        image: elzekool/rpi-nodered
-        ports:
-            - "1880:1880"
-        volumes:
-            - "${PWD}/data:/root/.node-red"
-        privileged: true
-        restart: "unless-stopped"
-
-
+  web:
+    # replace username/repo:tag with your name and image details
+#docker run -tip 1883:1883 -p 9001:9001 pascaldevink/rpi-mosquitto
+    image: matterantimatter/nerdred:build-01 
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "1880:1880"
+    networks:
+      - webnet
+networks:
+  webnet:
